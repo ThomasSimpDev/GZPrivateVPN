@@ -12,7 +12,17 @@
                         <span id="live-label">Live</span>
                     </span>
                     <span id="last-synced-label" class="text-gray-400">
-                        Last synced: {{ $lastSyncedAt ? \Carbon\Carbon::parse($lastSyncedAt)->diffForHumans() : 'Never' }}
+                        @php
+                            $formattedSync = 'Never';
+                            if ($lastSyncedAt && !($lastSyncedAt instanceof \__PHP_Incomplete_Class)) {
+                                try {
+                                    $formattedSync = \Carbon\Carbon::parse($lastSyncedAt)->diffForHumans();
+                                } catch (\Throwable $e) {
+                                    $formattedSync = 'Never';
+                                }
+                            }
+                        @endphp
+                        Last synced: {{ $formattedSync }}
                     </span>
                 </div>
 
