@@ -1,5 +1,5 @@
 <x-app-layout>
-<x-slot name="header">
+    <x-slot name="header">
         <div class="flex flex-wrap justify-between items-center gap-3">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('GZPrivateVPN Servers') }}
@@ -12,7 +12,7 @@
                         <span id="live-label">Live</span>
                     </span>
                     <span id="last-synced-label" class="text-gray-400">
-                        Last synced: {{ $lastSyncedAt ? $lastSyncedAt->diffForHumans() : 'Never' }}
+                        Last synced: {{ $lastSyncedAt ? \Carbon\Carbon::parse($lastSyncedAt)->diffForHumans() : 'Never' }}
                     </span>
                 </div>
 
@@ -112,7 +112,7 @@
             <!-- Server Table -->
             <div class="bg-white overflow-hidden shadow-sm rounded-lg">
                 <table class="min-w-full divide-y divide-gray-200">
-<thead class="bg-gray-50">
+                    <thead class="bg-gray-50">
                         <tr>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Server / Location</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ping Latency</th>
@@ -188,7 +188,7 @@
                                             <button @click="open = !open" class="inline-flex items-center px-3 py-1 bg-green-600 border border-transparent rounded-md text-xs font-bold text-white hover:bg-green-700">
                                                 Download ▾
                                             </button>
-                                            <div x-show="open" @click.away="open = false" class="origin-top-right absolute right-0 mt-1 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-10" style="display: none;">
+                                            <div x-show="open" @click.away="open = false" x-cloak class="origin-top-right absolute right-0 mt-1 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-10">
                                                 <div class="py-1">
                                                     @forelse($server->configs as $config)
                                                         <a href="{{ route('vpn.download', ['server' => $server, 'protocol' => $config->protocol]) }}" 
@@ -232,7 +232,7 @@
         </div>
     </div>
 
-<script>
+    <script>
         function pingServer(serverId) {
             const el = document.getElementById(`ping-${serverId}`);
             el.innerText = 'Testing...';
